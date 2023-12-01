@@ -9,9 +9,9 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-public class Day1 {
+public class Day1_1 {
 
-    Pattern digitPattern = Pattern.compile("\\D");
+    private final Pattern digitPattern = Pattern.compile("\\D");
 
     public Integer sumCalibrationValues(String calibrationFileName) throws URISyntaxException {
         Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader().getResource(calibrationFileName)).toURI());

@@ -6,8 +6,8 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            var sum = new Day1().sumCalibrationValues(args[0]);
-            System.out.println(sum);
+            System.out.println("Day 1.1: " + new Day1_1().sumCalibrationValues(args[0]));
+            System.out.println("Day 1.2: " + new Day1_2().sumCalibrationValues(args[0]));
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
