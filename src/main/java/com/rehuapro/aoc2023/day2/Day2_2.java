@@ -57,7 +57,6 @@ public class Day2_2 {
         Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader().getResource(calibrationFileName)).toURI());
         try (Stream<String> lines = Files.lines(path)) {
             return lines.map(this::toGame)
-                    // .filter(Game::isValid)
                     .map(Game::power)
                     .reduce(0, Integer::sum);
         } catch (IOException e) {
