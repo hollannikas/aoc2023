@@ -27,13 +27,13 @@ public class Day3_1 {
                 String line = lines.get(i);
 
                 Matcher symbolMatcher = Pattern.compile("[^0-9|.]+").matcher(line);
-                int finalI = i;
-                symbols.addAll(symbolMatcher.results().map(match -> new Symbol(finalI, match.start())).toList());
+                int lineNumber = i;
+                symbols.addAll(symbolMatcher.results().map(match -> new Symbol(lineNumber, match.start())).toList());
 
                 Matcher numberMatcher = Pattern.compile("[0-9]+").matcher(line);
 
                 numbers.addAll(numberMatcher.results().map(match ->
-                        new Number(finalI, match.start(), match.end() - 1, Integer.parseInt(match.group()))).toList());
+                        new Number(lineNumber, match.start(), match.end() - 1, Integer.parseInt(match.group()))).toList());
             }
 
             return numbers.stream()

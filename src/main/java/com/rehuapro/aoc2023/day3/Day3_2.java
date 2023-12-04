@@ -29,12 +29,12 @@ public class Day3_2 {
             for (int i = 0; i < lines.size(); i++) {
                 String line = lines.get(i);
 
-                int finalI = i;
+                int lineNumber = i;
                 Matcher numberMatcher = Pattern.compile("[0-9]+").matcher(line);
                 numbers.addAll(numberMatcher.results().map(match ->
-                        new Number(finalI, match.start(), match.end() - 1, Integer.parseInt(match.group()))).toList());
+                        new Number(lineNumber, match.start(), match.end() - 1, Integer.parseInt(match.group()))).toList());
                 Matcher gearMatcher = Pattern.compile("\\*").matcher(line);
-                gears.addAll(gearMatcher.results().map(match -> new Symbol(finalI, match.start())).toList());
+                gears.addAll(gearMatcher.results().map(match -> new Symbol(lineNumber, match.start())).toList());
             }
 
             return gears.stream()
@@ -43,7 +43,10 @@ public class Day3_2 {
                                 .filter(number -> isAdjacent(number, gear))
                                 .toList();
                         return new Gear(matchingNumbers.size() == 2,
-                                matchingNumbers.stream().mapToInt(Number::number).reduce(1, (acc, n) -> acc * n));
+                                matchingNumbers
+                                        .stream()
+                                        .mapToInt(Number::number)
+                                        .reduce(1, this::times));
                     })
                     .filter(Gear::isValid)
                     .mapToInt(Gear::gearRatio)
@@ -53,6 +56,9 @@ public class Day3_2 {
         }
     }
 
+    private Integer times(Integer a, Integer b) {
+        return a * b;
+    }
     static boolean isAdjacent(Number number, Symbol symbol) {
         return symbol.line <= number.line + 1 &&
                 symbol.line >= number.line - 1 &&
