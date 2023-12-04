@@ -4,39 +4,45 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.IntStream;
 
-public class Day4_1 {
+public class Day4_2 {
 
+    private final Map<Integer, Integer> cards = new HashMap<>();
     record Card(int number, List<Integer> numbers, List<Integer> winningNumbers) {
-        public long score() {
-            var wins = winningNumbers.stream()
+        public int score() {
+            return Long.valueOf(winningNumbers.stream()
                     .filter(numbers::contains)
-                    .toList();
-
-            var product = 0L;
-            for (Integer ignored : wins) {
-                    if (product == 0) {
-                        product++;
-                    } else {
-                        product *= 2;
-                    }
-            }
-            return product;
+                    .count()).intValue();
         }
     }
 
-    public Long sumWinningCards(String fileName) throws URISyntaxException {
+    public int sumWinningCards(String fileName) throws URISyntaxException {
         Path path = Path.of(Objects.requireNonNull(getClass().getClassLoader().getResource(fileName)).toURI());
         try (var lines = Files.lines(path)) {
-            return lines
-                    .map(this::parse)
-                    .map(Card::score)
-                    .reduce(0L, Long::sum);
+            lines
+                .map(this::parse)
+                .forEach(card -> {
+                    addCards(card.number, 1);
+                    addCardsFromScore(card.number, card.score());
+                });
+
+            return cards.values().stream().reduce(0, Integer::sum);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private void addCards(int cardNumber, int count) {
+        cards.compute(cardNumber, (k, v) -> v == null ? count : v + count);
+    }
+
+    private void addCardsFromScore(int cardNumber, int matches) {
+        if (matches > 0) {
+            var copiesOfCurrentCard = cards.getOrDefault(cardNumber, 0);
+            IntStream.rangeClosed(cardNumber + 1, cardNumber + matches)
+                    .forEach(newCardIndex -> addCards(newCardIndex, copiesOfCurrentCard));
         }
     }
 
@@ -57,8 +63,9 @@ public class Day4_1 {
     }
     private List<Integer> getNumbers(String line, int offset, int amount) {
         return Arrays.stream(line.substring(offset, offset + amount * 3 -1)
-                .split(" "))
+                        .split(" "))
                 .filter(s -> !s.isBlank())
+                .map(String::trim)
                 .map(Integer::parseInt)
                 .toList();
     }
