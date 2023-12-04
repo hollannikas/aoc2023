@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 public class Day4_1 {
 
@@ -29,14 +30,12 @@ public class Day4_1 {
     }
 
     public Long sumWinningCards(String fileName) throws URISyntaxException {
-        try {
-            Path path = Path.of(Objects.requireNonNull(getClass().getClassLoader().getResource(fileName)).toURI());
-            return Files.readAllLines(path)
-                    .stream().map(this::parse)
-                    .peek(System.out::println)
+        Path path = Path.of(Objects.requireNonNull(getClass().getClassLoader().getResource(fileName)).toURI());
+        try (Stream<String> lines = Files.lines(path)) {
+            return lines
+                    .map(this::parse)
                     .map(Card::score)
                     .reduce(0L, Long::sum);
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -61,7 +60,6 @@ public class Day4_1 {
         return Arrays.stream(line.substring(offset, offset + amount * 3 -1)
                 .split(" "))
                 .filter(s -> !s.isBlank())
-                .map(String::trim)
                 .map(Integer::parseInt)
                 .toList();
     }
