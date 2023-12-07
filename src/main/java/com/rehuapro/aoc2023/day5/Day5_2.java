@@ -22,7 +22,7 @@ public class Day5_2 {
     private final Set<String> categoryNames = new LinkedHashSet<>();
     private final Map<String, List<CategoryRow>> categories = new HashMap<>();
     public Long solve(String fileName) throws URISyntaxException {
-        Path path = Path.of(Objects.requireNonNull(getClass().getClassLoader().getResource(fileName)).toURI());
+        var path = Path.of(Objects.requireNonNull(getClass().getClassLoader().getResource(fileName)).toURI());
         try (var lines = Files.lines(path)) {
             String category = "";
             for (var line : lines.toList()) {
@@ -38,7 +38,7 @@ public class Day5_2 {
                     }
                 } else if (line.endsWith("map:")) {
                     var map = line.split("-to-");
-                    String to = map[1].split(" ")[0];
+                    var to = map[1].split(" ")[0];
                     categoryNames.add(to);
                     categories.computeIfAbsent(to, k -> new ArrayList<>());
                     category = to;
@@ -56,7 +56,7 @@ public class Day5_2 {
             };
             seeds.forEach(pair -> LongStream.range(pair.first, pair.first + pair.second).
                     forEach(seed -> {
-                        long location = seed;
+                        var location = seed;
                         for (var categoryName : categoryNames) {
                             var rows = categories.get(categoryName);
                             for (var row : rows) {

@@ -19,7 +19,7 @@ public class Day6_2 {
         }
     }
     public Long solve(String fileName) throws URISyntaxException {
-        Path path = Path.of(Objects.requireNonNull(getClass().getClassLoader().getResource(fileName)).toURI());
+        var path = Path.of(Objects.requireNonNull(getClass().getClassLoader().getResource(fileName)).toURI());
         try (var lines = Files.lines(path)) {
             return toRace(lines.toList()).waysToWin();
         } catch (IOException e) {

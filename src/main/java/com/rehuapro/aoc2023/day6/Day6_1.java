@@ -19,7 +19,7 @@ public class Day6_1 {
         }
     }
     public Long solve(String fileName) throws URISyntaxException {
-        Path path = Path.of(Objects.requireNonNull(getClass().getClassLoader().getResource(fileName)).toURI());
+        var path = Path.of(Objects.requireNonNull(getClass().getClassLoader().getResource(fileName)).toURI());
         try (var lines = Files.lines(path)) {
             List<Race> races = getRaces(lines.toList());
             BinaryOperator<Long> times = (a, b) -> a * b;
@@ -33,8 +33,8 @@ public class Day6_1 {
     }
 
     private List<Race> getRaces(List<String> rows) {
-        List<Long> times = toLongList(rows.get(0));
-        List<Long> distances = toLongList(rows.get(1));
+        var times = toLongList(rows.get(0));
+        var distances = toLongList(rows.get(1));
 
         return IntStream.range(0, times.size())
                 .mapToObj(i -> new Race(times.get(i), distances.get(i)))

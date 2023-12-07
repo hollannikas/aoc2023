@@ -19,7 +19,7 @@ public class Day4_2 {
     }
 
     public int sumWinningCards(String fileName) throws URISyntaxException {
-        Path path = Path.of(Objects.requireNonNull(getClass().getClassLoader().getResource(fileName)).toURI());
+        var path = Path.of(Objects.requireNonNull(getClass().getClassLoader().getResource(fileName)).toURI());
         try (var lines = Files.lines(path)) {
             lines
                 .map(this::parse)
@@ -47,7 +47,7 @@ public class Day4_2 {
     }
 
     private Card parse(String line) {
-        int number = Integer.parseInt(line.substring(5, 8).trim());
+        var number = Integer.parseInt(line.substring(5, 8).trim());
 
         var winningNumbers = getWinningNumbers(line);
         var numbers = getCardNumbers(line);

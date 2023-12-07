@@ -3,7 +3,6 @@ package com.rehuapro.aoc2023.day2;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
@@ -49,7 +48,7 @@ public class Day2_1 {
     }
 
     public Integer sumValidGameIDs(String calibrationFileName) throws URISyntaxException {
-        Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader().getResource(calibrationFileName)).toURI());
+        var path = Paths.get(Objects.requireNonNull(getClass().getClassLoader().getResource(calibrationFileName)).toURI());
         try (Stream<String> lines = Files.lines(path)) {
             return lines.map(this::toGame)
                     .filter(Game::isValid)
@@ -61,8 +60,7 @@ public class Day2_1 {
     }
 
     private Game toGame(String s) {
-        // get id
-        String[] idAndTurns = s.split(": ");
+        var idAndTurns = s.split(": ");
         var id = Integer.parseInt(idAndTurns[0].split(" ")[1]);
 
         var turnStrings = idAndTurns[1].split("; ");
