@@ -7,13 +7,13 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 public class Day6_2 {
 
     record Race(long time, long distance) {
         public long waysToWin() {
-            return IntStream.rangeClosed(0, (int) time)
+            return LongStream.rangeClosed(0, time)
                     .filter(i -> i * (time - i) > distance)
                     .count();
         }
