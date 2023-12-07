@@ -31,7 +31,7 @@ public class Day6_1 {
         }
     }
 
-    private static List<Race> getRaces(List<String> rows) {
+    private List<Race> getRaces(List<String> rows) {
         List<Long> times = toLongList(rows.get(0));
         List<Long> distances = toLongList(rows.get(1));
 
@@ -40,7 +40,7 @@ public class Day6_1 {
                 .toList();
     }
 
-    private static List<Long> toLongList(String row) {
+    private List<Long> toLongList(String row) {
         return Arrays.stream(row.split(" "))
                 .skip(1)
                 .filter(s -> !s.isBlank())
