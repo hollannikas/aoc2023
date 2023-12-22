@@ -19,13 +19,13 @@ public class Day8_1 {
             List<String> linesList = lines.toList();
             var steps = linesList.get(0).chars().mapToObj(c -> (char) c).toList();
 
-            IntStream.range(2, linesList.size()).forEach(i -> {
-                var line = linesList.get(i);
-                var parts = line.split(" = ");
-                var left = parts[1].split(", ")[0].substring(1,4);
-                var right = parts[1].split(", ")[1].substring(0,3);
-                nodes.put(parts[0], new Node(left, right));
-            });
+            IntStream.range(2, linesList.size())
+                    .mapToObj(i -> linesList.get(i).split(" = "))
+                    .forEach(parts -> {
+                        var left = parts[1].split(", ")[0].substring(1, 4);
+                        var right = parts[1].split(", ")[1].substring(0, 3);
+                        nodes.put(parts[0], new Node(left, right));
+                    });
 
             var currentNode = "AAA";
             var counter = 0;
@@ -36,6 +36,7 @@ public class Day8_1 {
                 switch (nextStep) {
                     case 'L' -> currentNode = node.left;
                     case 'R' -> currentNode = node.right;
+                    default -> throw new RuntimeException("Invalid step: " + nextStep);
                 }
                 counter++;
             }
