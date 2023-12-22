@@ -18,6 +18,12 @@ public class Day7_1 {
         ONE_PAIR,
         HIGH_CARD
     }
+
+    private static final List<String> CARD_VALUES = List.of(
+            "2", "3", "4", "5", "6", "7", "8", "9", "T",
+            "J", "Q", "K", "A"
+    );
+
     private static class Hand {
         private final String cards;
         private final long bid;
@@ -55,19 +61,17 @@ public class Day7_1 {
 
     private final Comparator<Hand> handComparator = new Comparator<>() {
 
-        private static final List<String> CARD_VALUES = List.of(
-                "2", "3", "4", "5", "6", "7", "8", "9", "T",
-                "J", "Q", "K", "A"
-        );
         @Override
         public int compare(Hand hand1, Hand hand2) {
             var handType = getHandType(hand1);
             if (handType != getHandType(hand2)) {
                 return handType.compareTo(getHandType(hand2));
             }
+            var cards1 = hand1.cards;
+            var cards2 = hand2.cards;
             for (int i = 0; i < 5; i++) {
-                if (CARD_VALUES.indexOf(hand2.cards.substring(i, i + 1)) != CARD_VALUES.indexOf(hand1.cards.substring(i, i + 1))) {
-                    return CARD_VALUES.indexOf(hand2.cards.substring(i, i + 1)) - CARD_VALUES.indexOf(hand1.cards.substring(i, i + 1));
+                if (CARD_VALUES.indexOf(cards2.substring(i, i + 1)) != CARD_VALUES.indexOf(cards1.substring(i, i + 1))) {
+                    return CARD_VALUES.indexOf(cards2.substring(i, i + 1)) - CARD_VALUES.indexOf(cards1.substring(i, i + 1));
                 }
             }
             return 0;

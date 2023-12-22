@@ -18,6 +18,12 @@ public class Day7_2 {
         ONE_PAIR,
         HIGH_CARD
     }
+
+    private static final List<String> CARD_VALUES = List.of(
+            "J", "2", "3", "4", "5", "6", "7", "8", "9",
+            "T", "Q", "K", "A"
+    );
+
     private static class Hand {
         private final String cards;
         private final long bid;
@@ -56,20 +62,15 @@ public class Day7_2 {
 
     private final Comparator<Hand> handComparator = new Comparator<>() {
 
-        private static final List<String> CARD_VALUES = List.of(
-                "J", "2", "3", "4", "5", "6", "7", "8", "9",
-                "T", "Q", "K", "A"
-        );
-
         @Override
         public int compare(Hand hand1, Hand hand2) {
             var handType = getHandType(hand1);
             if (handType != getHandType(hand2)) {
                 return handType.compareTo(getHandType(hand2));
             }
+            var cards1 = hand1.cards;
+            var cards2 = hand2.cards;
             for (int i = 0; i < 5; i++) {
-                String cards2 = hand2.cards;
-                String cards1 = hand1.cards;
                 if (CARD_VALUES.indexOf(cards2.substring(i, i + 1)) != CARD_VALUES.indexOf(cards1.substring(i, i + 1))) {
                     return CARD_VALUES.indexOf(cards2.substring(i, i + 1)) - CARD_VALUES.indexOf(cards1.substring(i, i + 1));
                 }
@@ -90,7 +91,6 @@ public class Day7_2 {
                     .toList();
 
             return IntStream.range(0, hands.size())
-                    .peek(i -> System.out.println(hands.get(i).cards + " " + hands.get(i).getType()))
                     .mapToLong(i -> hands.get(i).getBid() * (i+1))
                     .reduce(0L, Long::sum);
         } catch (IOException e) {
