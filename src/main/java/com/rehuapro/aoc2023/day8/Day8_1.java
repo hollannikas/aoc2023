@@ -33,11 +33,11 @@ public class Day8_1 {
             while (!currentNode.equals("ZZZ")) {
                 var nextStep = steps.get(counter % steps.size());
                 var node = nodes.get(currentNode);
-                switch (nextStep) {
-                    case 'L' -> currentNode = node.left;
-                    case 'R' -> currentNode = node.right;
+                currentNode = switch (nextStep) {
+                    case 'L' -> node.left;
+                    case 'R' -> node.right;
                     default -> throw new RuntimeException("Invalid step: " + nextStep);
-                }
+                };
                 counter++;
             }
 
